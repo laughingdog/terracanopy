@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "terracanopy"
+version = "0.1.0"
+description = "Band-aware, streaming image analysis for vegetation, water, and thermal/wildlife monitoring"
+readme = "README.md"
+# Everyone develops and deploys on the same Python (3.15) so behavior matches
+# across laptops, VMs, CI, and edge devices. The code relies on deferred
+# annotation evaluation (PEP 649), so it will not run on anything older than 3.14.
+requires-python = ">=3.15"
+dependencies = [
+    "numpy>=2.0",
+    "opencv-python-headless>=4.10",
+]
+
+# Extras: optional features for people who *use* the package.
+[project.optional-dependencies]
+geo = ["rasterio>=1.4"]
+
+# Dependency groups (PEP 735): tooling for people who *work on* the package.
+# Not published with it. `uv sync` installs the "dev" group by default.
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.8",
+    "pyright>=1.1.390",
+    "pre-commit>=4",
+]
+
+[project.scripts]
+terracanopy = "terracanopy.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+
+[tool.ruff]
+line-length = 110
+# Ruff may not recognize the newest Python as a target yet; this is the
+# closest it supports and has the same syntax features we use.
+target-version = "py314"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",  # pycodestyle + pyflakes
+    "I",            # import sorting
+    "B",            # bugbear: likely bugs
+    "UP",           # pyupgrade: modern syntax
+    "SIM",          # simplifications
+    "NPY",          # numpy gotchas
+    "RUF",          # ruff-specific
+]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.14"
+typeCheckingMode = "standard"
