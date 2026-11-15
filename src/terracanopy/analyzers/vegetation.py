@@ -37,13 +37,21 @@ def _otsu_threshold(index: np.ndarray, value_range: tuple[float, float]) -> floa
     # the range, and a wrong value_range would skew it.
     lo, hi = value_range
     scaled = np.clip((index - lo) / (hi - lo), 0.0, 1.0)
-    u8 = (scaled * 255).astype(np.uint8)
+    # Round to the nearest level (np.rint), do not truncate. Truncating shifts every value down by
+    # somewhere between 0 and 1 level (half a level on average), so the 8-bit copy would disagree with
+    # the float original about which side of the threshold some pixels are on.
+    u8 = np.rint(scaled * 255).astype(np.uint8)
     # With THRESH_OTSU, OpenCV ignores the 0 we pass as the threshold and computes its own, returned as t.
     # Otsu always finds *some* split, even on a frame with no vegetation at all (it then splits noise)
     # or a frame that is all canopy. So an automatic canopy_fraction is never trustworthy on empty or
     # uniform scenes; pass an explicit threshold if that matters.
     t, _ = cv2.threshold(u8, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    return float(lo + (t / 255.0) * (hi - lo))
+    # OpenCV classes a pixel as foreground when its 8-bit level is > t, i.e. level t + 1 or higher.
+    # Levels are rounded, so level t covers values up to t + 0.5, and the true cut-off in index units
+    # is t + 0.5, the midpoint between the last background level and the first foreground level.
+    # Returning plain t would put the cut-off at the *bottom* of level t and misclassify pixels
+    # that sit at that level (the bug seen with two-valued images, where soil was counted as canopy).
+    return float(lo + ((t + 0.5) / 255.0) * (hi - lo))
 
 
 class VegetationAnalyzer:
