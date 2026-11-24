@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# terracanopy analysis output (default --out directory of the CLI)
+/out/
+
+# Emacs lock files (symlinks like .#frame.py created while a file is open for editing)
+.#*

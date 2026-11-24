@@ -41,10 +41,31 @@ class Frame:
     bands may hold other units; analyzers that use them document their own
     assumptions.
 
-    `data[i]` is the band named `band_names[i]`; the two are validated to be the
-    same length when the Frame is created. The Frame is a plain mutable
-    dataclass: it does not copy `data`, so two Frames built from the same array
-    share pixels, and in-place edits to `data` are visible everywhere.
+    `data[i]` is the 2d array of the band named `band_names[i]`; the two are validated to be the
+    same length when the Frame is created.
+
+    Why bands come first, (bands, H, W), when photo libraries (OpenCV, PIL, matplotlib) use
+    (H, W, channels): this project is built around multispectral and satellite data, where RGB
+    photos are the special case, and the layout follows from that.
+
+    - Indices are computed one band at a time (`frame.band("nir")`). With bands first, each band
+      is one contiguous (H, W) block that NumPy and OpenCV can use directly. With channels last,
+      a band is a strided slice (every Nth value) that is slower to read and that OpenCV may copy
+      or reject. This is the expected benefit and has not been benchmarked here.
+    - Multispectral sensors and GeoTIFF/satellite files deliver bands as separate planes, and the
+      band count varies (3 to 10+). `rasterio`, GDAL and PyTorch all use bands-first too, so a
+      future GeoTIFF source can be dropped in without transposing.
+
+    The cost is a conversion for ordinary photos: `from_rgb_uint8` transposes on the way in, and
+    `rgb()` converts back for display. If the project ends up dominated by per-pixel work (for
+    example a classifier that treats each pixel's spectrum as one feature vector) or by RGB-only
+    input, channels-last may be the better choice, and this is the place to revisit it.
+
+    A Frame owns its pixel data. The constructor always makes a private float32 copy of the array
+    you pass in, so later changes to your array do not affect the Frame, and edits to `frame.data`
+    do not affect your array. The cost is one extra copy of the pixels per Frame. This applies
+    only to `data`: `geo` and `meta` are dicts stored by reference, not copied, so a dict you pass
+    in is shared with the Frame and edits to it show up on both sides.
 
     `index` is the frame's position in its source (file number in a folder, raw
     frame number in a video), and `timestamp` is epoch seconds when known. Both
@@ -71,12 +92,14 @@ class Frame:
                 f"{self.data.shape[0]} bands in data but {len(self.band_names)} band names"
             )
 
-        # Converts the dtype only; it does NOT rescale. A uint8 array (0-255) passed in directly
-        # becomes float32 values of 0-255, silently breaking the [0, 1] assumption that
+        # Always take a private float32 copy, so the Frame never shares memory with the caller's array.
+        # astype() copies by default even when the dtype already matches, which is why there is no
+        # "if dtype != float32" check here: skipping the copy for float32 input would make sharing
+        # depend on the input's dtype, which callers cannot easily see.
+        # The conversion changes the dtype only; it does NOT rescale. A uint8 array (0-255) passed in
+        # directly becomes float32 values of 0-255, silently breaking the [0, 1] assumption that
         # thresholds and index ranges rely on. Use from_rgb_uint8() for 8-bit images.
-        # astype() also makes a copy, so after this the Frame no longer shares memory with the caller's array.
-        if self.data.dtype != np.float32:
-            self.data = self.data.astype(np.float32)
+        self.data = self.data.astype(np.float32)
 
 
     @property
@@ -92,9 +115,9 @@ class Frame:
     def band(self, name: str) -> np.ndarray:
         """The (H, W) array for one band. Raises KeyError if the band is not in this frame."""
         try:
-            # Indexing the first axis returns a view, not a copy: writing into the result changes the
-            # Frame's own data (and any other Frame sharing the same array). Copy it first if you need
-            # to modify it.
+            # Indexing the first axis returns a view, not a copy: writing into the result changes this
+            # Frame's own data. (No other Frame is affected, since every Frame owns its data.) Copy it
+            # first if you need to modify it without changing the Frame.
             return self.data[self.band_names.index(name)]
         # tuple.index raises ValueError when the name is missing; it is translated to KeyError (the
         # error callers expect from a lookup by name), and `from None` hides the confusing ValueError.
@@ -118,11 +141,14 @@ class Frame:
         if rgb.ndim != 3 or rgb.shape[2] != 3:
             raise ValueError(f"expected (H, W, 3) image; got {rgb.shape}")
 
-        # Image libraries store (H, W, channels); Frame wants (bands, H, W), so move the channel axis
-        # to the front. moveaxis returns a view with scrambled strides, not a rearranged copy, so
+        # Image libraries store (H, W, channels); Frame wants (bands, H, W) (see the Frame docstring for
+        # why), so move the channel axis to the front. moveaxis returns a view with scrambled strides, not a rearranged copy, so
         # ascontiguousarray makes the memory layout match the new shape. Without it, per-band slices
         # are strided views and OpenCV functions that need contiguous input can fail or copy.
         # The channel order is assumed to be R, G, B here; callers holding OpenCV's BGR must convert first.
+        # Note: this already builds a brand-new array, so the constructor's own copy is redundant
+        # for this path (one extra copy per frame). Left in on purpose for simplicity; revisit only
+        # if profiling shows it matters.
         data = np.moveaxis(rgb.astype(np.float32) / 255.0, -1, 0)
         return cls(data=np.ascontiguousarray(data), band_names=RGB_BANDS, **kwargs)
 
@@ -131,6 +157,7 @@ class Frame:
     def from_bands(cls, bands: dict[str, np.ndarray], **kwargs: Any) -> Frame:
         # Band order in the Frame is the dict's insertion order. All arrays must have the same
         # (H, W); np.stack raises if they don't. Values are not rescaled (see __post_init__).
+        # np.stack already copies, so the constructor's copy is redundant here too (see from_rgb_uint8).
         names = tuple(bands)
         data = np.stack([bands[n] for n in names], axis=0)
         return cls(data=data, band_names=names, **kwargs)

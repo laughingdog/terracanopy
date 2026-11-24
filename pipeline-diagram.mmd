@@ -1,0 +1,84 @@
+%% terracanopy: image analysis pipeline diagram (Mermaid flowchart source).
+%%
+%% This text file is the source of truth. pipeline-diagram.png is rendered from it.
+%% To update the diagram: edit this file, then re-render the PNG using either option below.
+%%
+%% Option 1, command line (needs Node.js; downloads a headless Chromium on first run):
+%%     npx -y @mermaid-js/mermaid-cli -i pipeline-diagram.mmd -o pipeline-diagram.png -s 3 -b white
+%%   (-s 3 renders at 3x scale for high resolution; -b white gives a white background)
+%% Option 2, browser: paste everything below the comment block into https://mermaid.live
+%%   and export a PNG at a high scale.
+%%
+%% How the committed PNG was made: Mermaid 11 (default theme, securityLevel loose so the
+%% bold/large title HTML is kept) rendered in Chromium at device scale factor 3, white background.
+%%
+%% Conventions used in this diagram:
+%%   - Each node names the file and class/function that does the work, in italics. If code moves
+%%     or is renamed, update the label (the file names are the part most likely to go stale).
+%%   - Colors are per file/role (see the classDef lines). The analyzer steps share one color
+%%     because they run as one unit inside VegetationAnalyzer.analyze().
+%%   - Gray cylinders marked with the disk symbol are on disk; every other node is in memory.
+%%     Thick arrows (==>) are the only disk/memory crossings.
+%%   - latency_ms covers only the analyzer box, not the disk read or the disk writes.
+flowchart TD
+    IN[("💾 On disk<br/>image file, folder or video file<br/>a camera or URL comes from the network")]
+    A["terracanopy analyze INPUT<br/><i>cli.py: main()</i>"]
+    B["Choose a source from the path or URL<br/><i>sources.py: open_source()</i><br/>builds ImageSource or VideoSource"]
+    C["Decode with OpenCV, one image or frame at a time<br/><i>sources.py: ImageSource, VideoSource</i><br/>8-bit BGR, H x W x 3"]
+    D["Convert BGR to RGB<br/><i>sources.py: _bgr_to_frame()</i>"]
+    E["Build the Frame: divide by 255, channels first, private copy<br/><i>frame.py: Frame.from_rgb_uint8()</i><br/>float32, 3 x H x W, bands red, green, blue"]
+
+    A --> B --> C --> D --> E
+    IN ==>|"💾 DISK to MEMORY<br/>file is read"| C
+
+    subgraph PIPE["<b><span style='font-size:20px'>pipeline.py: Pipeline.stream()</span></b><br/><b>repeats for every frame</b>"]
+        direction TB
+
+        subgraph AN["<b><span style='font-size:20px'>analyzers/vegetation.py: VegetationAnalyzer.analyze(frame)</span></b><br/><b>memory only, no files touched</b>"]
+            direction TB
+            F["1. Pick the index<br/><i>indices.py: best_vegetation_index()</i><br/>--index, or first one whose bands exist:<br/>NDVI, NDRE, GNDVI, ExG, VARI<br/>an RGB photo gives ExG"]
+            G["2. Compute the index per pixel<br/><i>indices.py: compute_index()</i><br/>shape H x W"]
+            H["3. Choose the threshold<br/><i>vegetation.py: _otsu_threshold()</i><br/>--threshold, or per-frame Otsu"]
+            I["4. Canopy mask: index > threshold<br/><i>vegetation.py: analyze(), _remove_small_blobs()</i><br/>optional --min-blob removes small specks"]
+            J["5. Statistics over canopy pixels only<br/><i>vegetation.py: analyze()</i><br/>canopy_fraction, mean, median, p10, p90, std"]
+            F --> G --> H --> I --> J
+        end
+
+        K["Package the output<br/><i>analyzers/base.py: AnalysisResult</i><br/>layers: index, mask. metrics. info."]
+        L["Add latency_ms, analysis time only<br/><i>pipeline.py: Pipeline.stream()</i>"]
+        M["Write one JSON line per frame<br/><i>sinks.py: JsonlSink</i><br/>file is opened and emptied at startup"]
+        N["Draw and save the overlay<br/><i>sinks.py: OverlaySink, render_overlay()</i>"]
+
+        J --> K --> L
+        L --> M
+        L --> N
+    end
+
+    E -->|"Frame, one at a time"| F
+    L -->|"yields results"| O["Print a one-line summary per frame<br/><i>cli.py: main()</i>"]
+
+    OUT1[("💾 On disk<br/>out/results.jsonl")]
+    OUT2[("💾 On disk<br/>out/overlays/*.png")]
+    M ==>|"💾 MEMORY to DISK<br/>flushed after every frame"| OUT1
+    N ==>|"💾 MEMORY to DISK<br/>one PNG per frame"| OUT2
+
+    classDef cli fill:#eceff1,stroke:#607d8b,color:#1b1b1b
+    classDef source fill:#e3f2fd,stroke:#1976d2,color:#1b1b1b
+    classDef frame fill:#e0f2f1,stroke:#00897b,color:#1b1b1b
+    classDef analyzer fill:#e8f5e9,stroke:#388e3c,color:#1b1b1b
+    classDef result fill:#fff8e1,stroke:#f9a825,color:#1b1b1b
+    classDef pipe fill:#f3e5f5,stroke:#8e24aa,color:#1b1b1b
+    classDef sink fill:#fbe9e7,stroke:#e64a19,color:#1b1b1b
+    classDef disk fill:#cfd8dc,stroke:#37474f,stroke-width:2px,color:#1b1b1b
+
+    class A,O cli
+    class B,C,D source
+    class E frame
+    class F,G,H,I,J analyzer
+    class K result
+    class L pipe
+    class M,N sink
+    class IN,OUT1,OUT2 disk
+
+    style PIPE fill:none,stroke:#8e24aa,stroke-width:3px
+    style AN fill:none,stroke:#388e3c,stroke-width:3px
