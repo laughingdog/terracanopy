@@ -24,7 +24,7 @@ def _bgr_to_frame(bgr, source: str, index: int, timestamp: float | None = None) 
 
 
 class ImageSource:
-    """One image file or a directory of them (RGB; phone photos, drone stills)."""
+    """Reads in one image file or a directory of them (RGB; phone photos, drone stills)."""
 
     def __init__(self, path: str | Path) -> None:
         self.path = Path(path)
