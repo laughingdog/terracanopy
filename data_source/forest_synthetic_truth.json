@@ -1,0 +1,857 @@
+{
+  "seed": 42,
+  "size": {
+    "width": 960,
+    "height": 720
+  },
+  "canopy_fraction": 0.4337,
+  "stressed_fraction_of_canopy": 0.1901,
+  "n_trees": 140,
+  "n_stressed_trees": 31,
+  "non_canopy_features": [
+    "dirt road (diagonal)",
+    "pond (upper right)"
+  ],
+  "trees": [
+    {
+      "x": 171,
+      "y": 312,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 705,
+      "y": 454,
+      "radius": 29,
+      "health": "healthy"
+    },
+    {
+      "x": 919,
+      "y": 403,
+      "radius": 27,
+      "health": "healthy"
+    },
+    {
+      "x": 215,
+      "y": 72,
+      "radius": 22,
+      "health": "stressed"
+    },
+    {
+      "x": 121,
+      "y": 200,
+      "radius": 41,
+      "health": "stressed"
+    },
+    {
+      "x": 919,
+      "y": 116,
+      "radius": 41,
+      "health": "stressed"
+    },
+    {
+      "x": 158,
+      "y": 173,
+      "radius": 21,
+      "health": "healthy"
+    },
+    {
+      "x": 129,
+      "y": 525,
+      "radius": 34,
+      "health": "stressed"
+    },
+    {
+      "x": 625,
+      "y": 232,
+      "radius": 17,
+      "health": "stressed"
+    },
+    {
+      "x": 164,
+      "y": 297,
+      "radius": 30,
+      "health": "healthy"
+    },
+    {
+      "x": 597,
+      "y": 86,
+      "radius": 43,
+      "health": "stressed"
+    },
+    {
+      "x": 557,
+      "y": 276,
+      "radius": 26,
+      "health": "healthy"
+    },
+    {
+      "x": 129,
+      "y": 319,
+      "radius": 42,
+      "health": "healthy"
+    },
+    {
+      "x": 930,
+      "y": 462,
+      "radius": 17,
+      "health": "stressed"
+    },
+    {
+      "x": 719,
+      "y": 34,
+      "radius": 32,
+      "health": "healthy"
+    },
+    {
+      "x": 801,
+      "y": 659,
+      "radius": 40,
+      "health": "stressed"
+    },
+    {
+      "x": 91,
+      "y": 225,
+      "radius": 19,
+      "health": "healthy"
+    },
+    {
+      "x": 655,
+      "y": 620,
+      "radius": 32,
+      "health": "healthy"
+    },
+    {
+      "x": 353,
+      "y": 314,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 382,
+      "y": 709,
+      "radius": 20,
+      "health": "healthy"
+    },
+    {
+      "x": 592,
+      "y": 273,
+      "radius": 34,
+      "health": "stressed"
+    },
+    {
+      "x": 40,
+      "y": 333,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 312,
+      "y": 434,
+      "radius": 17,
+      "health": "healthy"
+    },
+    {
+      "x": 478,
+      "y": 194,
+      "radius": 34,
+      "health": "stressed"
+    },
+    {
+      "x": 620,
+      "y": 648,
+      "radius": 43,
+      "health": "healthy"
+    },
+    {
+      "x": 271,
+      "y": 510,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 365,
+      "y": 26,
+      "radius": 21,
+      "health": "stressed"
+    },
+    {
+      "x": 495,
+      "y": 513,
+      "radius": 30,
+      "health": "healthy"
+    },
+    {
+      "x": 58,
+      "y": 542,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 944,
+      "y": 414,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 365,
+      "y": 412,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 297,
+      "y": 376,
+      "radius": 26,
+      "health": "stressed"
+    },
+    {
+      "x": 86,
+      "y": 512,
+      "radius": 30,
+      "health": "healthy"
+    },
+    {
+      "x": 105,
+      "y": 417,
+      "radius": 40,
+      "health": "healthy"
+    },
+    {
+      "x": 208,
+      "y": 39,
+      "radius": 24,
+      "health": "healthy"
+    },
+    {
+      "x": 663,
+      "y": 393,
+      "radius": 33,
+      "health": "healthy"
+    },
+    {
+      "x": 670,
+      "y": 499,
+      "radius": 17,
+      "health": "healthy"
+    },
+    {
+      "x": 145,
+      "y": 95,
+      "radius": 28,
+      "health": "healthy"
+    },
+    {
+      "x": 438,
+      "y": 25,
+      "radius": 25,
+      "health": "healthy"
+    },
+    {
+      "x": 618,
+      "y": 380,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 581,
+      "y": 206,
+      "radius": 28,
+      "health": "stressed"
+    },
+    {
+      "x": 329,
+      "y": 407,
+      "radius": 36,
+      "health": "healthy"
+    },
+    {
+      "x": 869,
+      "y": 416,
+      "radius": 31,
+      "health": "healthy"
+    },
+    {
+      "x": 453,
+      "y": 419,
+      "radius": 16,
+      "health": "stressed"
+    },
+    {
+      "x": 601,
+      "y": 416,
+      "radius": 33,
+      "health": "healthy"
+    },
+    {
+      "x": 468,
+      "y": 21,
+      "radius": 43,
+      "health": "healthy"
+    },
+    {
+      "x": 456,
+      "y": 280,
+      "radius": 41,
+      "health": "healthy"
+    },
+    {
+      "x": 950,
+      "y": 203,
+      "radius": 34,
+      "health": "stressed"
+    },
+    {
+      "x": 47,
+      "y": 418,
+      "radius": 33,
+      "health": "healthy"
+    },
+    {
+      "x": 402,
+      "y": 174,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 47,
+      "y": 187,
+      "radius": 24,
+      "health": "healthy"
+    },
+    {
+      "x": 183,
+      "y": 690,
+      "radius": 28,
+      "health": "healthy"
+    },
+    {
+      "x": 89,
+      "y": 226,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 294,
+      "y": 145,
+      "radius": 33,
+      "health": "healthy"
+    },
+    {
+      "x": 584,
+      "y": 672,
+      "radius": 41,
+      "health": "healthy"
+    },
+    {
+      "x": 953,
+      "y": 4,
+      "radius": 32,
+      "health": "healthy"
+    },
+    {
+      "x": 573,
+      "y": 426,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 85,
+      "y": 326,
+      "radius": 22,
+      "health": "healthy"
+    },
+    {
+      "x": 357,
+      "y": 187,
+      "radius": 40,
+      "health": "healthy"
+    },
+    {
+      "x": 17,
+      "y": 5,
+      "radius": 40,
+      "health": "stressed"
+    },
+    {
+      "x": 247,
+      "y": 521,
+      "radius": 34,
+      "health": "healthy"
+    },
+    {
+      "x": 340,
+      "y": 692,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 314,
+      "y": 470,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 594,
+      "y": 619,
+      "radius": 29,
+      "health": "healthy"
+    },
+    {
+      "x": 762,
+      "y": 283,
+      "radius": 38,
+      "health": "stressed"
+    },
+    {
+      "x": 659,
+      "y": 274,
+      "radius": 22,
+      "health": "healthy"
+    },
+    {
+      "x": 250,
+      "y": 405,
+      "radius": 30,
+      "health": "healthy"
+    },
+    {
+      "x": 242,
+      "y": 143,
+      "radius": 41,
+      "health": "healthy"
+    },
+    {
+      "x": 437,
+      "y": 366,
+      "radius": 16,
+      "health": "healthy"
+    },
+    {
+      "x": 114,
+      "y": 708,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 786,
+      "y": 350,
+      "radius": 26,
+      "health": "stressed"
+    },
+    {
+      "x": 959,
+      "y": 711,
+      "radius": 21,
+      "health": "healthy"
+    },
+    {
+      "x": 941,
+      "y": 169,
+      "radius": 40,
+      "health": "healthy"
+    },
+    {
+      "x": 254,
+      "y": 531,
+      "radius": 34,
+      "health": "healthy"
+    },
+    {
+      "x": 27,
+      "y": 148,
+      "radius": 19,
+      "health": "healthy"
+    },
+    {
+      "x": 883,
+      "y": 598,
+      "radius": 27,
+      "health": "healthy"
+    },
+    {
+      "x": 476,
+      "y": 145,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 156,
+      "y": 304,
+      "radius": 16,
+      "health": "healthy"
+    },
+    {
+      "x": 917,
+      "y": 190,
+      "radius": 31,
+      "health": "healthy"
+    },
+    {
+      "x": 63,
+      "y": 377,
+      "radius": 27,
+      "health": "healthy"
+    },
+    {
+      "x": 135,
+      "y": 506,
+      "radius": 27,
+      "health": "healthy"
+    },
+    {
+      "x": 126,
+      "y": 523,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 346,
+      "y": 152,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 214,
+      "y": 25,
+      "radius": 24,
+      "health": "stressed"
+    },
+    {
+      "x": 64,
+      "y": 45,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 80,
+      "y": 43,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 122,
+      "y": 153,
+      "radius": 18,
+      "health": "healthy"
+    },
+    {
+      "x": 312,
+      "y": 548,
+      "radius": 17,
+      "health": "healthy"
+    },
+    {
+      "x": 516,
+      "y": 668,
+      "radius": 19,
+      "health": "healthy"
+    },
+    {
+      "x": 800,
+      "y": 20,
+      "radius": 34,
+      "health": "healthy"
+    },
+    {
+      "x": 808,
+      "y": 336,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 405,
+      "y": 254,
+      "radius": 22,
+      "health": "healthy"
+    },
+    {
+      "x": 394,
+      "y": 209,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 908,
+      "y": 33,
+      "radius": 18,
+      "health": "healthy"
+    },
+    {
+      "x": 315,
+      "y": 279,
+      "radius": 38,
+      "health": "healthy"
+    },
+    {
+      "x": 743,
+      "y": 617,
+      "radius": 28,
+      "health": "healthy"
+    },
+    {
+      "x": 287,
+      "y": 518,
+      "radius": 25,
+      "health": "healthy"
+    },
+    {
+      "x": 564,
+      "y": 30,
+      "radius": 17,
+      "health": "healthy"
+    },
+    {
+      "x": 199,
+      "y": 294,
+      "radius": 26,
+      "health": "healthy"
+    },
+    {
+      "x": 116,
+      "y": 676,
+      "radius": 25,
+      "health": "stressed"
+    },
+    {
+      "x": 407,
+      "y": 208,
+      "radius": 40,
+      "health": "healthy"
+    },
+    {
+      "x": 397,
+      "y": 264,
+      "radius": 41,
+      "health": "healthy"
+    },
+    {
+      "x": 900,
+      "y": 326,
+      "radius": 30,
+      "health": "healthy"
+    },
+    {
+      "x": 505,
+      "y": 97,
+      "radius": 22,
+      "health": "healthy"
+    },
+    {
+      "x": 20,
+      "y": 562,
+      "radius": 26,
+      "health": "stressed"
+    },
+    {
+      "x": 151,
+      "y": 145,
+      "radius": 20,
+      "health": "stressed"
+    },
+    {
+      "x": 500,
+      "y": 356,
+      "radius": 28,
+      "health": "stressed"
+    },
+    {
+      "x": 64,
+      "y": 10,
+      "radius": 17,
+      "health": "healthy"
+    },
+    {
+      "x": 356,
+      "y": 691,
+      "radius": 18,
+      "health": "stressed"
+    },
+    {
+      "x": 370,
+      "y": 334,
+      "radius": 31,
+      "health": "healthy"
+    },
+    {
+      "x": 500,
+      "y": 680,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 72,
+      "y": 78,
+      "radius": 40,
+      "health": "healthy"
+    },
+    {
+      "x": 587,
+      "y": 194,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 779,
+      "y": 688,
+      "radius": 17,
+      "health": "stressed"
+    },
+    {
+      "x": 312,
+      "y": 469,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 210,
+      "y": 351,
+      "radius": 25,
+      "health": "healthy"
+    },
+    {
+      "x": 541,
+      "y": 208,
+      "radius": 21,
+      "health": "healthy"
+    },
+    {
+      "x": 865,
+      "y": 459,
+      "radius": 42,
+      "health": "healthy"
+    },
+    {
+      "x": 342,
+      "y": 381,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 523,
+      "y": 171,
+      "radius": 34,
+      "health": "healthy"
+    },
+    {
+      "x": 723,
+      "y": 245,
+      "radius": 28,
+      "health": "stressed"
+    },
+    {
+      "x": 267,
+      "y": 313,
+      "radius": 32,
+      "health": "healthy"
+    },
+    {
+      "x": 949,
+      "y": 653,
+      "radius": 22,
+      "health": "healthy"
+    },
+    {
+      "x": 31,
+      "y": 556,
+      "radius": 20,
+      "health": "stressed"
+    },
+    {
+      "x": 41,
+      "y": 118,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 881,
+      "y": 369,
+      "radius": 20,
+      "health": "healthy"
+    },
+    {
+      "x": 79,
+      "y": 462,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 771,
+      "y": 704,
+      "radius": 41,
+      "health": "healthy"
+    },
+    {
+      "x": 580,
+      "y": 67,
+      "radius": 32,
+      "health": "healthy"
+    },
+    {
+      "x": 76,
+      "y": 155,
+      "radius": 35,
+      "health": "healthy"
+    },
+    {
+      "x": 54,
+      "y": 116,
+      "radius": 37,
+      "health": "healthy"
+    },
+    {
+      "x": 166,
+      "y": 48,
+      "radius": 23,
+      "health": "healthy"
+    },
+    {
+      "x": 645,
+      "y": 171,
+      "radius": 35,
+      "health": "stressed"
+    },
+    {
+      "x": 926,
+      "y": 244,
+      "radius": 38,
+      "health": "stressed"
+    },
+    {
+      "x": 533,
+      "y": 657,
+      "radius": 28,
+      "health": "healthy"
+    },
+    {
+      "x": 522,
+      "y": 357,
+      "radius": 43,
+      "health": "healthy"
+    },
+    {
+      "x": 692,
+      "y": 327,
+      "radius": 39,
+      "health": "healthy"
+    },
+    {
+      "x": 19,
+      "y": 343,
+      "radius": 31,
+      "health": "stressed"
+    },
+    {
+      "x": 629,
+      "y": 629,
+      "radius": 43,
+      "health": "healthy"
+    },
+    {
+      "x": 686,
+      "y": 316,
+      "radius": 16,
+      "health": "stressed"
+    }
+  ]
+}

@@ -26,6 +26,35 @@ def test_frame_validation():
         Frame(np.zeros((2, 4, 4)), ("red", "green", "blue"))
 
 
+@pytest.mark.parametrize("dtype", [np.float32, np.float64, np.uint8])
+def test_frame_owns_its_data(dtype):
+    # float32 input used to be stored without a copy, so sharing depended on the input's dtype.
+    # Every dtype must now behave the same: the Frame gets a private copy.
+    src = np.zeros((3, 4, 4), dtype)
+    f = Frame(src, ("red", "green", "blue"))
+    assert not np.shares_memory(src, f.data)
+    src[0, 0, 0] = 1
+    assert f.data[0, 0, 0] == 0  # editing the caller's array does not change the Frame
+    f.data[1, 0, 0] = 0.5
+    assert src[1, 0, 0] == 0  # editing the Frame does not change the caller's array
+
+
+def test_factories_own_their_data():
+    bands = {k: np.zeros((4, 4), np.float32) for k in ("red", "nir")}
+    f = Frame.from_bands(bands)
+    assert not any(np.shares_memory(b, f.data) for b in bands.values())
+    rgb = synthetic_rgb()
+    f = Frame.from_rgb_uint8(rgb)
+    assert not np.shares_memory(rgb, f.data)
+
+
+def test_band_returns_view_of_frames_own_data():
+    # Documented behaviour: band() is a view, so writing to it changes this Frame (and only it).
+    f = Frame(np.zeros((2, 3, 3), np.float32), ("red", "nir"))
+    f.band("nir")[0, 0] = 1.0
+    assert f.data[1, 0, 0] == 1.0
+
+
 def test_available_indices_depends_on_bands():
     rgb = Frame.from_rgb_uint8(synthetic_rgb())
     assert set(available_indices(rgb)) == {"exg", "vari"}
